@@ -1,0 +1,155 @@
+{% extends "layout.html" %}
+{% block title %}{{ school[-1].school.name }} - Import.io Basketball School Rankings{% endblock %}
+{% block body %}
+    <div class="container">
+        <div class="page-header">
+            <h1>{{ school[-1].school.name }} Basketball <small>(#{{ school[-1].rank }})</small></h1>
+        </div>
+        <p class="lead"><strong>Conference:</strong> {{ school[-1].school.conference }}</p>
+        <div class="row">
+            {% for team in teams %}
+                <div class="col-xs-6">
+                    <h3>{{ team.team_type }}'s Team: ({{ team.team_snapshots[-1].wins }}-{{ team.team_snapshots[-1].losses }})</h3>
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Category</th>
+                                    <th>Rank/PPG</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Overall Ranking</td>
+                                    <td>{{ team.team_snapshots[-1].rank }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Offensive Ranking</td>
+                                    <td>{{ team.team_snapshots[-1].off_rank }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Defensive Ranking</td>
+                                    <td>{{ team.team_snapshots[-1].def_rank }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Team PPG</td>
+                                    <td>{{ team.team_snapshots[-1].ppg }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Opponent PPG</td>
+                                    <td>{{ team.team_snapshots[-1].oppg }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    <br/>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <canvas id="canvas"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% if teams|length > 1 %}
+    <script>
+        var config = {
+            type: 'line',
+            data: {
+                labels: ["{% if teams[0].team_snapshots[-7] %}{{ teams[0].team_snapshots[-7].date.strftime('%m-%d-%Y') }}{% else %}N/A{% endif %}",
+                         "{% if teams[0].team_snapshots[-6] %}{{ teams[0].team_snapshots[-6].date.strftime('%m-%d-%Y') }}{% else %}N/A{% endif %}",
+                         "{% if teams[0].team_snapshots[-5] %}{{ teams[0].team_snapshots[-5].date.strftime('%m-%d-%Y') }}{% else %}N/A{% endif %}",
+                         "{% if teams[0].team_snapshots[-4] %}{{ teams[0].team_snapshots[-4].date.strftime('%m-%d-%Y') }}{% else %}N/A{% endif %}",
+                         "{% if teams[0].team_snapshots[-3] %}{{ teams[0].team_snapshots[-3].date.strftime('%m-%d-%Y') }}{% else %}N/A{% endif %}",
+                         "{% if teams[0].team_snapshots[-2] %}{{ teams[0].team_snapshots[-2].date.strftime('%m-%d-%Y') }}{% else %}N/A{% endif %}",
+                         "{% if teams[0].team_snapshots[-1].date %}{{ teams[0].team_snapshots[-1].date.strftime('%m-%d-%Y') }}{% else %}N/A{% endif %}"],
+                datasets: [
+                    {
+                    label: "{{ teams[0].team_type }}'s Ranking",
+                    fill: false,
+                    backgroundColor: window.chartColors.blue,
+                    borderColor: window.chartColors.blue,
+                    data: [{% if teams[0].team_snapshots[-7] %}{{ teams[0].team_snapshots[-7].rank }}{% else %}NaN{% endif %},
+                           {% if teams[0].team_snapshots[-6] %}{{ teams[0].team_snapshots[-6].rank }}{% else %}NaN{% endif %},
+                           {% if teams[0].team_snapshots[-5] %}{{ teams[0].team_snapshots[-5].rank }}{% else %}NaN{% endif %},
+                           {% if teams[0].team_snapshots[-4] %}{{ teams[0].team_snapshots[-4].rank }}{% else %}NaN{% endif %},
+                           {% if teams[0].team_snapshots[-3] %}{{ teams[0].team_snapshots[-3].rank }}{% else %}NaN{% endif %},
+                           {% if teams[0].team_snapshots[-2] %}{{ teams[0].team_snapshots[-2].rank }}{% else %}NaN{% endif %},
+                           {% if teams[0].team_snapshots[-1] %}{{ teams[0].team_snapshots[-1].rank }}{% else %}NaN{% endif %}
+                    ]
+                }, {
+                    label: "{{ teams[1].team_type }}'s Ranking",
+                    fill: false,
+                    backgroundColor: window.chartColors.red,
+                    borderColor: window.chartColors.red,
+                    data: [{% if teams[1].team_snapshots[-7] %}{{ teams[1].team_snapshots[-7].rank }}{% else %}NaN{% endif %},
+                           {% if teams[1].team_snapshots[-6] %}{{ teams[1].team_snapshots[-6].rank }}{% else %}NaN{% endif %},
+                           {% if teams[1].team_snapshots[-5] %}{{ teams[1].team_snapshots[-5].rank }}{% else %}NaN{% endif %},
+                           {% if teams[1].team_snapshots[-4] %}{{ teams[1].team_snapshots[-4].rank }}{% else %}NaN{% endif %},
+                           {% if teams[1].team_snapshots[-3] %}{{ teams[1].team_snapshots[-3].rank }}{% else %}NaN{% endif %},
+                           {% if teams[1].team_snapshots[-2] %}{{ teams[1].team_snapshots[-2].rank }}{% else %}NaN{% endif %},
+                           {% if teams[1].team_snapshots[-1] %}{{ teams[1].team_snapshots[-1].rank }}{% else %}NaN{% endif %}
+                    ]
+                }, {
+                    label: "School Ranking",
+                    fill: false,
+                    backgroundColor: window.chartColors.green,
+                    borderColor: window.chartColors.green,
+                    data: [{% if school[-7] %}{{ school[-7].rank }}{% else %}NaN{% endif %},
+                           {% if school[-6] %}{{ school[-6].rank }}{% else %}NaN{% endif %},
+                           {% if school[-5] %}{{ school[-5].rank }}{% else %}NaN{% endif %},
+                           {% if school[-4] %}{{ school[-4].rank }}{% else %}NaN{% endif %},
+                           {% if school[-3] %}{{ school[-3].rank }}{% else %}NaN{% endif %},
+                           {% if school[-2] %}{{ school[-2].rank }}{% else %}NaN{% endif %},
+                           {% if school[-1] %}{{ school[-1].rank }}{% else %}NaN{% endif %}
+                    ]
+                }]
+            },
+            options: {
+                responsive: true,
+                title:{
+                    display:true,
+                    text:'Past Week Rankings'
+                },
+                tooltips: {
+                    mode: 'index',
+                    intersect: false
+                },
+                hover: {
+                    mode: 'nearest',
+                    intersect: true
+                },
+                scales: {
+                    xAxes: [{
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Day'
+                        }
+                    }],
+                    yAxes: [{
+                        display: true,
+                        ticks: {
+                            reverse: true
+                        },
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Rank'
+                        }
+                    }]
+                }
+            }
+        };
+
+        window.onload = function() {
+            var ctx = document.getElementById("canvas").getContext("2d");
+            window.myLine = new Chart(ctx, config);
+        };
+    </script>
+    {% endif %}
+{% endblock %}

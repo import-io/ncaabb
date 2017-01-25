@@ -1,0 +1,31 @@
+/* Move down content because we have a fixed navbar that is 50px tall */
+body {
+  padding-top: 50px;
+  padding-bottom: 20px;
+}
+.jumbotron {
+    color:#fff;
+    background-color:#e52054;
+}
+.jumbotron p {
+    color:#fff;
+}
+.jumbotron a {
+    color:#fff;
+}
+.btn-primary{
+    background-color:transparent;
+    border-color:#fff;
+}
+.btn-primary:active,.btn-primary:focus,.btn-primary:hover,
+.btn-primary.active.focus, .btn-primary.active:focus,.btn-primary.active:hover,
+.btn-primary:active.focus, .btn-primary:active:focus,.btn-primary:active:hover {
+    background-color:rgba(255,255,255,0.25);
+    border-color:#fff;
+
+}
+canvas {
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+}

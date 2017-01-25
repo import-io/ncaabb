@@ -1,0 +1,47 @@
+{% extends "layout.html" %}
+{% block body %}
+    <div class="jumbotron">
+        <div class="container">
+            <h1 class="text-center">Import.io's NCAA Basketball Rankings</h1><br/>
+            <p class="text-center">This demonstration shows how quickly you can turn data from your Import.io
+                extractors into an API for your next project! With daily data extractions from
+                <a href="http://www.ncaa.com/">NCAA.com</a>, we can track which colleges across the United States have
+                the best basketball programs by ranking their Men's and Women's teams combined. Import.io's highly
+                efficient and scalable platform allows customers to process 1,000s of URLs and gain access to millions
+                of rows of data that they use for hundreds of different use cases.</p><br/>
+            <p class="text-center">
+                <a class="btn btn-primary btn-lg" href="https://www.import.io/" role="button">
+                    Learn more about Import.io
+                </a>
+            </p>
+        </div>
+    </div>
+    <div class="container">
+        <div class="page-header">
+            <h1>Top 10 Basketball Schools</h1>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>School</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for school in schools %}
+                            <tr>
+                                <td>{{ school.rank }}</td>
+                                <td><a href="{{ url_for('school', school_name=school.school.name) }}">{{ school.school.name }}</a></td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <a href="{{ url_for('rankings') }}" class="btn btn-default btn-lg btn-block">View Complete Rankings</a>
+    </div>
+{% endblock %}

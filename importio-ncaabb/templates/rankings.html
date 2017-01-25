@@ -1,0 +1,44 @@
+{% extends "layout.html" %}
+{% block body %}
+    <div class="container">
+        <div class="page-header">
+            <h1>Basketball School Rankings</h1>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>School</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for school in schools.items %}
+                                <tr>
+                                    <td>{{ school.rank }}</td>
+                                    <td><a href="{{ url_for('school', school_name=school.school.name) }}">{{ school.school.name }}</a></td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <nav aria-label="rank-paginator">
+                        <ul class="pager">
+                            {% if schools.has_prev %}
+                                <li class="previous"><a href="{{ url_for('rankings', page=schools.prev_num) }}"><span aria-hidden="true">&larr;</span> Previous</a></li>
+                            {% else %}
+                                <li class="previous disabled"><a href="#"><span aria-hidden="true">&larr;</span> Previous</a></li>
+                            {% endif %}
+                            {% if schools.has_next %}
+                                <li class="next"><a href="{{ url_for('rankings', page=schools.next_num) }}">Next <span aria-hidden="true">&rarr;</span></a></li>
+                            {% else %}
+                                <li class="next disabled"><a href="#">Next <span aria-hidden="true">&rarr;</span></a></li>
+                            {% endif %}
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

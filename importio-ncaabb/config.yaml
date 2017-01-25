@@ -1,0 +1,18 @@
+---
+SQLALCHEMY_TRACK_MODIFICATIONS: True
+
+RANKINGS_PER_PAGE: 25
+
+Men:
+  RPI: ee765646-8fde-4be0-9876-f3cddefbbe9d
+  Offense: 65d9df90-0e1e-4ff7-bc8e-27ed68e3da9f
+  Defense: 2c14381e-2bd3-4cde-91b0-17421b7590fc
+
+Women:
+  RPI: f6b030d4-44fe-428f-9c0a-4b18349d003c
+  Offense: 88a3b51a-500e-4c46-b3c5-9ff64505c937
+  Defense: 7880713d-b9c0-4843-a0e2-3e70b0c0cbee
+
+Job:
+  Hour: 9
+  Minute: 30

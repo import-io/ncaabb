@@ -1,0 +1,8 @@
+APScheduler==3.3.0
+Flask==0.12
+Flask-SQLAlchemy==2.1
+pandas==0.19.1
+psycopg2==2.6.2
+PyYAML==3.12
+requests==2.12.2
+SQLAlchemy==1.1.4
